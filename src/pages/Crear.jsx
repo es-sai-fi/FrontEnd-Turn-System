@@ -557,6 +557,63 @@ const handleSaveEdit = async () => {
           ))}
         </ul>
       </div>
+      {/* 📌 MODAL DE EDICIÓN DE PUESTO */}
+      {showEditModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <button 
+              className="close-button"
+              onClick={() => setShowEditModal(false)}
+            >
+              ×
+            </button>
+
+            <h2 className="modal-title">✏️ Editar Puesto</h2>
+
+            <form onSubmit={handleUpdatePuesto}>
+              {/* Campo oculto para el ID */}
+              <input type="hidden" value={selectedPuesto?.place_id} />
+
+              <div className="form-group">
+                <label className="form-label">Nombre del Puesto:</label>
+                <input
+                  type="text"
+                  name="place_name"
+                  value={editForm.place_name}
+                  onChange={handleEditChange}
+                  className="form-input"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Servicio:</label>
+                <input
+                  type="text"
+                  name="service_name"
+                  value={editForm.service_name}
+                  onChange={handleEditChange}
+                  className="form-input"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Descripción:</label>
+                <textarea
+                  name="service_desc"
+                  value={editForm.service_desc}
+                  onChange={handleEditChange}
+                  className="form-textarea"
+                  required
+                />
+              </div>
+
+              <button type="submit" className="btn-primary">💾 Guardar Cambios</button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
