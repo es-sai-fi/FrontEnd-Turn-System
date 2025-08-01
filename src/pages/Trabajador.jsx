@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getNextTurn, cerrarTurno } from "../api/turno";
 import { fetchPuestoById, getPuestosByUser } from "../api/puestos";
 import { useNavigate } from "react-router-dom";
+import LogoutButton from "./LogoutButton";
 
 export default function WorkerPage() {
   const [puestos, setPuestos] = useState([]);
@@ -68,6 +69,7 @@ export default function WorkerPage() {
 
         const puesto = await fetchPuestoById(placeId);
         setPuestoNombre(puesto.place_name);
+        localStorage.setItem("turno_listo", "true");
       } else {
         setTurnoActual(null);
         setPuestoSeleccionado(placeId);
@@ -88,6 +90,7 @@ export default function WorkerPage() {
 
       setMessage(`✅ Turno ${turnoActual.turn_name} cerrado.`);
       setTurnoCerrado(true);
+      localStorage.setItem("turno_listo", "false");
     } catch (err) {
       console.error("❌ Error cerrando turno", err);
       setMessage("Ocurrió un error al cerrar el turno.");
@@ -113,6 +116,7 @@ export default function WorkerPage() {
   };
 
   const handleVolver = () => {
+    localStorage.setItem("turno_listo", "false");
     setTurnoActual(null);
     setTurnoCerrado(false);
     setPuestoSeleccionado(null);
@@ -121,6 +125,7 @@ export default function WorkerPage() {
 
   return (
     <div className="page-wrapper">
+        <LogoutButton />
         {/* 🔵 TÍTULO */}
         <h1 className="page-title">🎯 Panel de Trabajador</h1>
 

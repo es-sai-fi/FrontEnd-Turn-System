@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import LogoutButton from "./LogoutButton";
 import { getGlobalStats } from '../api/placeStats';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
@@ -84,6 +85,7 @@ const priorityData = stats.priorityDistribution
 
   return (
     <div className="page-wrapper">
+      <LogoutButton />
       <h1 className="page-title">Estadísticas Globales</h1>
 
       {/* 1️⃣ Demografía */}

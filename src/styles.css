@@ -652,3 +652,70 @@ body {
   font-size: 1.1rem;
   margin-top: 2rem;
 }
+
+.welcome-wrapper {
+  background-color: #1e1e1e;  /* Fondo oscuro para que combine con el modo oscuro */
+  padding: 3rem;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  margin: 4rem auto;
+}
+
+/* 🏷️ Título de bienvenida */
+.welcome-heading {
+  font-size: 2.5rem;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+/* 📜 Subtítulo */
+.welcome-subheading {
+  font-size: 1.2rem;
+  color: #cccccc;
+  margin-bottom: 2rem;
+}
+
+/* 🎛️ Botones */
+.welcome-button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* 🎨 SweetAlert2 personalizado para que combine con tu estilo */
+.swal2-popup {
+  border-radius: 12px !important;
+  background-color: #ffffff !important; /* Fondo blanco como tus tarjetas */
+  border: 2px solid #2c3e50 !important; /* Borde para que combine con los títulos */
+  padding: 20px !important;
+}
+
+.swal2-title {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  font-size: 1.8rem !important;
+  color: #2c3e50 !important;
+  margin-bottom: 10px !important;
+}
+
+.swal2-confirm {
+  background-color: #2c3e50 !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  padding: 10px 20px !important;
+  font-size: 1rem !important;
+  transition: background-color 0.3s ease !important;
+}
+
+.swal2-confirm:hover {
+  background-color: #1a242f !important;
+}
+
+.logout-container {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 999; /* para que siempre esté encima */
+}

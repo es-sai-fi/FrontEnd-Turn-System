@@ -5,7 +5,7 @@ const WelcomePage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="welcome-wrapper">
+    <div className="page-wrapper welcome-wrapper">
       <h1 className="welcome-heading">Bienvenido a nuestro sistema</h1>
       <p className="welcome-subheading">
         Gestiona tus turnos y servicios fácilmente

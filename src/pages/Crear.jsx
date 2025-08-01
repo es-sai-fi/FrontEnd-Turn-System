@@ -4,6 +4,8 @@ import { createService } from '../api/crearServicio';
 import { createEmployee } from '../api/crearEmpleados';
 import { fetchEmpleados } from '../api/crearEmpleados';
 import { useNavigate } from "react-router-dom";
+import LogoutButton from "./LogoutButton";
+import Swal from 'sweetalert2';
 import { fetchPuestos, deletePuesto, assignUserToPlace } from '../api/puestos'; 
 
 const Crear = () => {
@@ -31,7 +33,17 @@ const Crear = () => {
     }
   const result = await assignUserToPlace(selectedEmpleado, selectedPuesto);
     if (result.success) {
-      alert("✅ Puesto asignado correctamente");
+      Swal.fire({
+                title: `¡Listo!`,
+                text: 'Puesto asignado correctamente',
+                icon: 'success',
+                confirmButtonText: 'Aceptar',
+                customClass: {
+                  popup: 'swal2-popup',
+                  title: 'swal2-title',
+                  confirmButton: 'swal2-confirm'
+                }
+              });
       setShowAssignModal(false);
       setSelectedEmpleado("");
       setSelectedPuesto("");
@@ -105,8 +117,17 @@ const Crear = () => {
     if (window.confirm("¿Estás seguro de que quieres borrar este puesto?")) {
       const result = await deletePuesto(placeId);
       if (result.success) {
-        alert("✅ Puesto eliminado correctamente");
-        // recargar la lista de puestos después de eliminar
+        Swal.fire({
+                  title: `¡Listo!`,
+                  text: 'Puesto eliminado correctamente',
+                  icon: 'success',
+                  confirmButtonText: 'Aceptar',
+                  customClass: {
+                    popup: 'swal2-popup',
+                    title: 'swal2-title',
+                    confirmButton: 'swal2-confirm'
+                  }
+                });
         fetchPuestos();
       } else {
         alert("❌ Error borrando puesto: " + (result.error?.message || "Error desconocido"));
@@ -123,7 +144,6 @@ const Crear = () => {
     }
   };
 
-  // ✅ Nuevo método para enviar empleados
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -142,7 +162,17 @@ const Crear = () => {
           service_id: newService.service_id
         });
 
-        alert("✅ Puesto y servicio creados con éxito!");
+        Swal.fire({
+                  title: `¡Listo!`,
+                  text: 'Puesto y Servicio Creados con Éxito',
+                  icon: 'success',
+                  confirmButtonText: 'Aceptar',
+                  customClass: {
+                    popup: 'swal2-popup',
+                    title: 'swal2-title',
+                    confirmButton: 'swal2-confirm'
+                  }
+                });
       } 
       else if (currentForm === 'employee') {
         // Si es empleado, no cambiamos nada
@@ -166,6 +196,7 @@ const Crear = () => {
 
   return (
     <div className="admin-wrapper">
+      <LogoutButton />
       <h1 className="admin-heading">Panel de Administración</h1>
 
       {/* 📊 BOTÓN PARA VER ESTADÍSTICAS */}

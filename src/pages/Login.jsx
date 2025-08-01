@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { getLogin } from '../api/login';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
+
 
 const Login = () => {
 
@@ -17,16 +19,13 @@ const Login = () => {
       const data = await getLogin({ email, password });
       console.log('Respuesta completa del login:', data); // Depuración detallada
   
-      // Verificación exhaustiva del token
       if (!data?.access) {
         console.error('Estructura inesperada:', data);
         throw new Error('El servidor no devolvió un token válido');
       }
   
-      // Almacenamiento seguro
       localStorage.setItem('access_token', data.access);
       
-      // Guardar refresh token si existe
       if (data.refresh) {
         localStorage.setItem('refresh_token', data.refresh);
       }
@@ -39,7 +38,17 @@ const Login = () => {
         localStorage.setItem('user_id', data.user.id); // Cambiado de user_id a id para consistencia
         localStorage.setItem('user_name', data.user.name);
         
-        alert(`¡Bienvenido ${data.user.name}!`);
+        Swal.fire({
+          title: `¡Bienvenido!`,
+          text: 'Has iniciado sesión con éxito',
+          icon: 'success',
+          confirmButtonText: 'Aceptar',
+          customClass: {
+            popup: 'swal2-popup',
+            title: 'swal2-title',
+            confirmButton: 'swal2-confirm'
+          }
+        });
         
         const roleId = Number(data.user.role_id);
         console.log('Role ID:', roleId);
@@ -57,6 +66,12 @@ const Login = () => {
       }
       
     } catch (error) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Hubo un problema al iniciar sesión',
+        icon: 'error',
+        confirmButtonText: 'Intentar de nuevo',
+      });
       console.error('Error completo:', {
         message: error.message,
         response: error.response?.data,
@@ -64,7 +79,12 @@ const Login = () => {
       });
       
       setError(error.response?.data?.detail || 'Error al iniciar sesión');
-      alert(error.response?.data?.detail || 'Credenciales incorrectas');
+      Swal.fire({
+        title: 'Error',
+        text: 'Hubo un problema al iniciar sesión',
+        icon: 'error',
+        confirmButtonText: 'Intentar de nuevo',
+      });
     }
   };
 

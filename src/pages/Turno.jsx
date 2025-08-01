@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getTurnoActivo } from '../api/turno';
 import { fetchPuestoById } from '../api/puestos';
 import { useLocation, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const Turno = () => {
   const location = useLocation();
@@ -16,6 +17,7 @@ const Turno = () => {
   const [notified, setNotified] = useState(false);
   const [turnoCerrado, setTurnoCerrado] = useState(false);
   const [contador, setContador] = useState(3);
+  const [estadoTurno, setEstadoTurno] = useState("espera"); 
 
   useEffect(() => {
     const ad = localStorage.getItem("publicidad");
@@ -60,17 +62,14 @@ const Turno = () => {
         return;
       }
 
-      // ✅ Caso: hay turno activo
       if (response.success && response.data) {
         const data = response.data;
         setTurno(data);
 
-        // ✅ Guardamos el tiempo estimado si existe
         if (data.expected_attendacy_time) {
           setExpectedTime(data.expected_attendacy_time);
         }
 
-        // ✅ Obtenemos el nombre del puesto
         if (data.place_id) {
           try {
             const puestoData = await fetchPuestoById(data.place_id);
@@ -80,10 +79,19 @@ const Turno = () => {
           }
         }
 
-        // ✅ Notificación si es el siguiente turno
         if (data.is_next && !notified) {
-          alert('¡Es tu turno! Por favor dirígete al lugar de atención.');
-          setNotified(true);
+          const turnoListo = localStorage.getItem("turno_listo");
+          if (turnoListo === "true") {
+            Swal.fire({
+              title: "¡Es tu turno!",
+              text: "Por favor dirígete al lugar de atención.",
+              icon: "info",
+              confirmButtonText: "Aceptar"
+            });
+            setNotified(true);
+          } else {
+            console.log("⏳ El turno aún no ha sido activado por el trabajador.");
+          }
         }
       }
     };

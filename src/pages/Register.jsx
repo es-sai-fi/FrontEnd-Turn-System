@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerUser } from '../api/register';
+import Swal from 'sweetalert2';
 
 const Register = () => {
   const navigate = useNavigate();  
@@ -26,7 +27,17 @@ const Register = () => {
     e.preventDefault();
     const result = await registerUser(formData);
     if (result.success) {
-      alert("Registro exitoso 🎉");
+      Swal.fire({
+                title: `¡Registro Existoso!`,
+                text: 'Ya puedes iniciar sesión!',
+                icon: 'success',
+                confirmButtonText: 'Aceptar',
+                customClass: {
+                  popup: 'swal2-popup',
+                  title: 'swal2-title',
+                  confirmButton: 'swal2-confirm'
+                }
+              });
       navigate('/login');
     } else {
       alert("Error en el registro ❌");
