@@ -15,27 +15,6 @@ export const fetchPuestos = async () => {
   }
 };
 
-export const crearPuesto = async (puestoData) => {
-  try {    
-    const response = await api.post('/places/', puestoData);
-    
-    return response.data;
-  } catch (error) {
-    console.error('Error al crear puesto:', {
-      message: error.message,
-      status: error.response?.status,
-      data: error.response?.data
-    });
-    
-    // Mensajes de error específicos
-    if (error.response?.data?.service_id) {
-      throw new Error('El servicio seleccionado no existe');
-    }
-    
-    throw error;
-  }
-};
-
 // Función adicional para obtener detalles de un puesto
 export const fetchPuestoById = async (id) => {
   try {
