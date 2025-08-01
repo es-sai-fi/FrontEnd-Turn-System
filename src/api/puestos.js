@@ -4,7 +4,7 @@ export const fetchPuestos = async () => {
   try {
     console.log('Token actual:', localStorage.getItem('access_token') || localStorage.getItem('token'));
     
-    const response = await api.get('/place/'); // Nota el plural para consistencia REST
+    const response = await api.get('/place/');
     
     console.log('Puestos obtenidos:', response.data);
     return response.data;
