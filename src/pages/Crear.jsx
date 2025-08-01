@@ -21,6 +21,53 @@ const Crear = () => {
     service_name: '',
     service_desc: ''
   });
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editForm, setEditForm] = useState({
+    place_id: "",
+    place_name: "",
+    service_name: "",
+    service_desc: ""
+  });
+
+  const handleEditPuesto = (puesto) => {
+    setEditForm({
+      place_id: puesto.place_id, // 👈 ID oculto
+      place_name: puesto.place_name,
+      service_name: puesto.service?.service_name || "",
+      service_desc: puesto.service?.service_desc || ""
+    });
+    setShowEditModal(true);
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+const handleSaveEdit = async () => {
+  const { place_id, ...updatedData } = editForm;
+
+  const response = await updatePuesto(place_id, updatedData);
+
+  if (response.success) {
+    Swal.fire({
+      title: "✅ Puesto actualizado",
+      text: "El puesto se actualizó correctamente.",
+      icon: "success",
+      confirmButtonText: "Aceptar",
+    });
+    setShowEditModal(false);
+    loadPuestos(); // 🔄 Refresca la lista
+  } else {
+    Swal.fire({
+      title: "❌ Error",
+      text: "No se pudo actualizar el puesto.",
+      icon: "error",
+      confirmButtonText: "Aceptar",
+    });
+  }
+};
+
 
   const handleOpenAssignModal = () => {
     setShowAssignModal(true);
@@ -472,13 +519,23 @@ const Crear = () => {
               <strong>Servicio:</strong> {puesto.service?.service_name}<br />
               <strong>Descripción:</strong> {puesto.service?.service_desc}
 
-              {/* 📌 Botón de borrar */}
-              <div style={{ marginTop: '12px', textAlign: 'center' }}>
+              {/* 📌 Botones de acción */}
+              <div style={{ marginTop: '12px', textAlign: 'center', display: 'flex', justifyContent: 'center', gap: '10px' }}>
+                {/* 🗑 Botón de borrar */}
                 <button
                   className="delete-button"
                   onClick={() => handleDelete(puesto.place_id)}
                 >
                   🗑 Borrar
+                </button>
+
+                {/* ✏️ Botón de editar */}
+                <button
+                  className="btn"
+                  style={{ backgroundColor: '#f1c40f', color: '#000' }}
+                  onClick={() => handleEditPuesto(puesto)}
+                >
+                  ✏️ Editar
                 </button>
               </div>
             </li>

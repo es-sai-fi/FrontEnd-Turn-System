@@ -56,3 +56,13 @@ export const deletePuesto = async (placeId) => {
     return { success: false, error: error.response?.data };
   }
 };
+
+export const updatePuesto = async (placeId, updatedData) => {
+  try {
+    const response = await api.put(`/place/${placeId}/`, updatedData);
+    return { success: true, data: response.data };
+  } catch (error) {
+    console.error("❌ Error actualizando puesto:", error.response?.data || error);
+    return { success: false, error: error.response?.data };
+  }
+};
