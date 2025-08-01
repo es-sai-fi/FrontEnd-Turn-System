@@ -50,6 +50,7 @@ const Crear = () => {
 
 const handleUpdatePuesto = async (e) => {
   e.preventDefault();
+  console.log(selectedPuesto.place_id)
 
   try {
     const response = await api.put(`/place/${selectedPuesto.place_id}`, {
