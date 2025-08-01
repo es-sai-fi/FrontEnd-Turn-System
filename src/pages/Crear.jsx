@@ -77,7 +77,8 @@ const handleUpdatePuesto = async (e) => {
     });
 
     // 🔄 Recargar la lista de puestos y cerrar modal
-    loadPuestos();
+    const data = await fetchPuestos();
+    setPuestos(data);
     setShowEditModal(false);
 
   } catch (error) {
