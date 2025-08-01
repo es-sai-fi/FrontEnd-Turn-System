@@ -52,7 +52,7 @@ const handleUpdatePuesto = async (e) => {
   e.preventDefault();
 
   try {
-    const response = await api.put(`/place/${selectedPuesto.place_id}/`, {
+    const response = await api.put(`/place/${selectedPuesto.place_id}`, {
       place_name: editForm.place_name,
       service_name: editForm.service_name,
       service_desc: editForm.service_desc
