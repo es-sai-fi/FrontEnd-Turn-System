@@ -6,8 +6,8 @@ import { fetchEmpleados } from '../api/crearEmpleados';
 import { useNavigate } from "react-router-dom";
 import LogoutButton from "./LogoutButton";
 import Swal from 'sweetalert2';
-import { fetchPuestos, deletePuesto, assignUserToPlace } from '../api/puestos'; 
 import api from '../api/api';
+import { fetchPuestos, deletePuesto, assignUserToPlace } from '../api/puestos'; 
 
 const Crear = () => {
   const [showModal, setShowModal] = useState(false);
