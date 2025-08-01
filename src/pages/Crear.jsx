@@ -50,43 +50,42 @@ const Crear = () => {
 
 const handleUpdatePuesto = async (e) => {
   e.preventDefault();
-  console.log(selectedPuesto.place_id)
 
   try {
-    const response = await api.put(`/place/${selectedPuesto.place_id}`, {
-      place_name: editForm.place_name,
-      service_name: editForm.service_name,
-      service_desc: editForm.service_desc
+    // 1️⃣ Actualizar el nombre del puesto
+    await api.put(`/place/${selectedPuesto.place_id}`, {
+      place_name: editForm.place_name
     });
 
-    console.log("✅ Puesto actualizado:", response.data);
+    // 2️⃣ Actualizar el servicio asociado
+    if (selectedPuesto.service?.service_id) {
+      await api.put(`/service/${selectedPuesto.service.service_id}`, {
+        service_name: editForm.service_name,
+        service_desc: editForm.service_desc
+      });
+    } else {
+      console.warn("⚠️ Este puesto no tiene un service_id asociado");
+    }
 
+    // ✅ Notificación de éxito
     Swal.fire({
-      title: '✅ ¡Puesto actualizado!',
-      text: 'Los cambios se guardaron correctamente.',
+      title: '✅ Puesto actualizado',
+      text: 'El puesto y su servicio se han actualizado correctamente',
       icon: 'success',
       confirmButtonText: 'Aceptar'
     });
 
-    // 🔄 Actualizar la lista de puestos
-    const updatedPuestos = puestos.map((p) =>
-      p.place_id === selectedPuesto.place_id
-        ? { ...p, ...response.data }
-        : p
-    );
-    setPuestos(updatedPuestos);
-
-    // 🔒 Cerrar modal
+    // 🔄 Recargar la lista de puestos y cerrar modal
+    loadPuestos();
     setShowEditModal(false);
 
   } catch (error) {
     console.error("❌ Error actualizando puesto:", error);
-
     Swal.fire({
       title: '❌ Error',
-      text: 'No se pudo actualizar el puesto.',
+      text: 'No se pudo actualizar el puesto ni el servicio.',
       icon: 'error',
-      confirmButtonText: 'Intentar de nuevo'
+      confirmButtonText: 'Aceptar'
     });
   }
 };
