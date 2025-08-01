@@ -59,6 +59,7 @@ const handleUpdatePuesto = async (e) => {
 
     // 2️⃣ Actualizar el servicio asociado
     if (selectedPuesto.service?.service_id) {
+      console.log(selectedPuesto.service.service_id)
       await api.put(`/service/${selectedPuesto.service.service_id}`, {
         service_name: editForm.service_name,
         service_desc: editForm.service_desc
