@@ -266,7 +266,17 @@ const handleUpdatePuesto = async (e) => {
         // Si es empleado, no cambiamos nada
         const response = await createEmployee(employeeData);
         if (response.success) {
-          alert("✅ Empleado creado con éxito!");
+          Swal.fire({
+                    title: `¡Listo!`,
+                    text: 'El empleado ha sido creado con éxito!',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar',
+                    customClass: {
+                      popup: 'swal2-popup',
+                      title: 'swal2-title',
+                      confirmButton: 'swal2-confirm'
+                    }
+                  });
         } else {
           alert("❌ Error: " + JSON.stringify(response.error));
         }
