@@ -6,7 +6,7 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
-// ✅ Interceptor para añadir token automáticamente
+// Interceptor para añadir token automáticamente
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("access_token");
@@ -19,7 +19,7 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// ✅ Interceptor para manejar errores globalmente (401 → logout)
+// Interceptor para manejar errores globalmente (401 → logout)
 api.interceptors.response.use(
   (response) => response,
   (error) => {
