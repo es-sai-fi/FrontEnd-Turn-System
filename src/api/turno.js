@@ -32,7 +32,7 @@ export const getTurnoActivo = async (userId) => {
 
 export const getAllTurnos = async () => {
   try {
-    const response = await api.get('/turn/');  // <-- endpoint general de turnos
+    const response = await api.get('/turn/');
     return { success: true, data: response.data };
   } catch (error) {
     return {
