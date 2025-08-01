@@ -13,7 +13,6 @@ const Crear = () => {
   const [currentForm, setCurrentForm] = useState(null);
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [selectedEmpleado, setSelectedEmpleado] = useState("");
-  const [selectedPuesto, setSelectedPuesto] = useState("");
   const navigate = useNavigate();
   const [publicidad, setPublicidad] = useState(localStorage.getItem("publicidad") || null);
   const [formData, setFormData] = useState({
@@ -22,48 +21,70 @@ const Crear = () => {
     service_desc: ''
   });
   const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedPuesto, setSelectedPuesto] = useState(null);
   const [editForm, setEditForm] = useState({
-    place_id: "",
-    place_name: "",
-    service_name: "",
-    service_desc: ""
+    place_name: '',
+    service_name: '',
+    service_desc: ''
   });
 
   const handleEditPuesto = (puesto) => {
+    setSelectedPuesto(puesto);
     setEditForm({
-      place_id: puesto.place_id, // 👈 ID oculto
-      place_name: puesto.place_name,
-      service_name: puesto.service?.service_name || "",
-      service_desc: puesto.service?.service_desc || ""
+      place_name: puesto.place_name || '',
+      service_name: puesto.service?.service_name || '',
+      service_desc: puesto.service?.service_desc || ''
     });
     setShowEditModal(true);
   };
 
   const handleEditChange = (e) => {
     const { name, value } = e.target;
-    setEditForm((prev) => ({ ...prev, [name]: value }));
+    setEditForm((prev) => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
-const handleSaveEdit = async () => {
-  const { place_id, ...updatedData } = editForm;
 
-  const response = await updatePuesto(place_id, updatedData);
+const handleUpdatePuesto = async (e) => {
+  e.preventDefault();
 
-  if (response.success) {
-    Swal.fire({
-      title: "✅ Puesto actualizado",
-      text: "El puesto se actualizó correctamente.",
-      icon: "success",
-      confirmButtonText: "Aceptar",
+  try {
+    const response = await api.put(`/place/${selectedPuesto.place_id}/`, {
+      place_name: editForm.place_name,
+      service_name: editForm.service_name,
+      service_desc: editForm.service_desc
     });
-    setShowEditModal(false);
-    loadPuestos(); // 🔄 Refresca la lista
-  } else {
+
+    console.log("✅ Puesto actualizado:", response.data);
+
     Swal.fire({
-      title: "❌ Error",
-      text: "No se pudo actualizar el puesto.",
-      icon: "error",
-      confirmButtonText: "Aceptar",
+      title: '✅ ¡Puesto actualizado!',
+      text: 'Los cambios se guardaron correctamente.',
+      icon: 'success',
+      confirmButtonText: 'Aceptar'
+    });
+
+    // 🔄 Actualizar la lista de puestos
+    const updatedPuestos = puestos.map((p) =>
+      p.place_id === selectedPuesto.place_id
+        ? { ...p, ...response.data }
+        : p
+    );
+    setPuestos(updatedPuestos);
+
+    // 🔒 Cerrar modal
+    setShowEditModal(false);
+
+  } catch (error) {
+    console.error("❌ Error actualizando puesto:", error);
+
+    Swal.fire({
+      title: '❌ Error',
+      text: 'No se pudo actualizar el puesto.',
+      icon: 'error',
+      confirmButtonText: 'Intentar de nuevo'
     });
   }
 };
