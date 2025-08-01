@@ -1,12 +1,9 @@
 import api from './api';
 
 export const fetchPuestos = async () => {
-  try {
-    console.log('Token actual:', localStorage.getItem('access_token') || localStorage.getItem('token'));
-    
+  try {    
     const response = await api.get('/place/');
     
-    console.log('Puestos obtenidos:', response.data);
     return response.data;
   } catch (error) {
     console.error('Error al obtener puestos:', {
@@ -19,12 +16,9 @@ export const fetchPuestos = async () => {
 };
 
 export const crearPuesto = async (puestoData) => {
-  try {
-    console.log('Creando puesto con datos:', puestoData);
-    
+  try {    
     const response = await api.post('/places/', puestoData);
     
-    console.log('Puesto creado exitosamente:', response.data);
     return response.data;
   } catch (error) {
     console.error('Error al crear puesto:', {
@@ -56,7 +50,6 @@ export const fetchPuestoById = async (id) => {
 export const getPuestosByUser = async (userId) => {
   try {
     const response = await api.get(`/place/user_places/${userId}`);
-    console.log("📥 Respuesta cruda de user_places:", response.data);
     return response.data;
   } catch (error) {
     console.error("❌ Error obteniendo puestos del trabajador:", error);
