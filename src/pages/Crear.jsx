@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import LogoutButton from "./LogoutButton";
 import Swal from 'sweetalert2';
 import { fetchPuestos, deletePuesto, assignUserToPlace } from '../api/puestos'; 
+import api from '../api/api';
 
 const Crear = () => {
   const [showModal, setShowModal] = useState(false);
