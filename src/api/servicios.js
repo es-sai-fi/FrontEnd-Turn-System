@@ -15,22 +15,6 @@ export const fetchServices = async () => {
   }
 };
 
-export const crearServicio = async (servicioData) => {
-  try {
-    const response = await api.post('/service/', servicioData);
-  
-    return response.data;
-  } catch (error) {
-    console.error('Error al crear servicio:', {
-      message: error.message,
-      status: error.response?.status,
-      data: error.response?.data
-    });
-    
-    throw error;
-  }
-};
-
 export const deleteServicio = async (serviceId) => {
   try {
     const response = await api.delete(`/service/${serviceId}`);
